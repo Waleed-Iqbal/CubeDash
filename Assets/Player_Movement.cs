@@ -12,7 +12,7 @@ public class Player_Movement : MonoBehaviour
     }
 
     // Marked as "Fixed"Update because we are using it to mess with physics
-    void Update()
+    void FixedUpdate()
     {
         rb.AddForce(0, 0, 1000 * Time.deltaTime);
 
