@@ -4,9 +4,9 @@ public class Player_Movement : MonoBehaviour
 {
 
     public Rigidbody rb;
-    public float forwardForce = 5000f;
-    public float rightSideForce = 50f;
-    public float leftSideForce = -50f;
+    public float forwardForce = 1000f;
+    public float rightSideForce = 10f;
+    public float leftSideForce = -10f;
     // Use this for initialization
     void Start()
     {
@@ -19,10 +19,10 @@ public class Player_Movement : MonoBehaviour
         rb.AddForce(0, 0, forwardForce * Time.deltaTime);
 
         if (Input.GetKey("d"))
-            rb.AddForce(rightSideForce * Time.deltaTime, 0, 0);
+            rb.AddForce(rightSideForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
 
         if (Input.GetKey("a"))
-            rb.AddForce(leftSideForce * Time.deltaTime, 0, 0);
+            rb.AddForce(leftSideForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
 
 
     }
