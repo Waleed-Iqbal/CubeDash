@@ -4,7 +4,7 @@ public class Player_Movement : MonoBehaviour
 {
 
     public Rigidbody rb;
-    public float forwardForce = 1000f;
+    public float forwardForce = 5000f;
     public float rightSideForce = 50f;
     public float leftSideForce = -50f;
     // Use this for initialization
