@@ -5,7 +5,15 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public bool hasGameEnded = false;
+    public bool hasLevelCompleted = false;
     int restartDelay = 1;
+
+    public void CompleteLevel()
+    {
+        Debug.Log("Game Ended");
+        if (!hasLevelCompleted)
+            hasLevelCompleted = true;
+    }
 
     public void EndGame()
     {
