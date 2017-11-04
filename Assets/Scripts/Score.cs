@@ -15,9 +15,6 @@ public class Score : MonoBehaviour {
         if (FindObjectOfType<GameManager>().hasGameEnded)
             scoreText.text = player.position.z.ToString("Game Over !!");
 
-        else if (FindObjectOfType<GameManager>().hasLevelCompleted)
-            scoreText.text = player.position.z.ToString("Level complete");
-
         else
             scoreText.text = player.position.z.ToString("0");
     }

@@ -3,9 +3,14 @@
 public class EndTrigger : MonoBehaviour
 {
     public GameManager gameManager;
-    private void OnTriggerEnter()
+    public GameObject completeLevelUI;
+
+    void OnTriggerEnter()
     {
-        gameManager.CompleteLevel();
+        //completeLevelUI.SetActive(true);
+       // gameManager.CompleteLevel();
+        completeLevelUI.SetActive(true);
+        Debug.Log("Game ended");
     }
 
 }
