@@ -3,6 +3,14 @@ Thumbs.db
 ehthumbs.db
 
 
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bject/
+[Oo]bjects/
+Assets/
+Assets/AssetStoreTools*
+
+
 # Folder config file
 Desktop.ini
 
@@ -47,7 +55,14 @@ Network Trash Folder
 Temporary Items
 .apdisk
 Library/
+Temp/
+
+# Visual Studio
 *.suo
 *.ide
 .vs/
-Temp/
+*.sln
+*.csproj
+*.pbd
+*.svd
+*.tmp
