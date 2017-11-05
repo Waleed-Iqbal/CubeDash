@@ -1,0 +1,70 @@
+Initialize engine version: 5.6.0f3 (497a0f351392)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 960M (ID=0x139b)
+    Vendor:   NVIDIA
+    VRAM:     3072 MB
+    Driver:   22.21.13.8205
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\Projects\CubeDash\GravityAmity_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\Projects\CubeDash\GravityAmity_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\Projects\CubeDash\GravityAmity_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\Projects\CubeDash\GravityAmity_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\Projects\CubeDash\GravityAmity_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\Projects\CubeDash\GravityAmity_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\Projects\CubeDash\GravityAmity_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\Projects\CubeDash\GravityAmity_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: D:\Projects\CubeDash\GravityAmity_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading D:\Projects\CubeDash\GravityAmity_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+- Completed reload, in  0.118 seconds
+Platform assembly: D:\Projects\CubeDash\GravityAmity_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\Projects\CubeDash\GravityAmity_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 3.557526 ms
+Setting up 4 worker threads for Enlighten.
+  Thread -> id: 1c04 -> priority: 1 
+  Thread -> id: 6b8 -> priority: 1 
+  Thread -> id: 2c74 -> priority: 1 
+  Thread -> id: 1ee4 -> priority: 1 
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 5.682166 ms
+
+Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 421.
+Total: 0.475653 ms (FindLiveObjects: 0.048987 ms CreateObjectMapping: 0.014617 ms MarkObjects: 0.335802 ms  DeleteObjects: 0.075851 ms)
+
+Game ended
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.703999 ms
+
+Unloading 11 unused Assets to reduce memory usage. Loaded Objects now: 281.
+Total: 0.447604 ms (FindLiveObjects: 0.054913 ms CreateObjectMapping: 0.039111 ms MarkObjects: 0.214913 ms  DeleteObjects: 0.137876 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.335802 ms
+
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 422.
+Total: 0.393876 ms (FindLiveObjects: 0.076641 ms CreateObjectMapping: 0.014617 ms MarkObjects: 0.255209 ms  DeleteObjects: 0.046617 ms)
+
+Game ended
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.504098 ms
+
+Unloading 11 unused Assets to reduce memory usage. Loaded Objects now: 281.
+Total: 0.404147 ms (FindLiveObjects: 0.044246 ms CreateObjectMapping: 0.016987 ms MarkObjects: 0.176987 ms  DeleteObjects: 0.165530 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.487505 ms
+
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 422.
+Total: 0.282073 ms (FindLiveObjects: 0.055308 ms CreateObjectMapping: 0.019753 ms MarkObjects: 0.160394 ms  DeleteObjects: 0.045827 ms)
+
