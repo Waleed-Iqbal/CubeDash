@@ -10,7 +10,7 @@ ehthumbs.db
 Assets/
 Assets/AssetStoreTools*
 
-
+*.exe
 # Folder config file
 Desktop.ini
 
