@@ -81,8 +81,11 @@
     <Compile Include="Assets\Scripts\EndTrigger.cs" />
     <Compile Include="Assets\Scripts\FollowPlayer.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+<<<<<<< HEAD
     <Compile Include="Assets\Scripts\HomeScene.cs" />
     <Compile Include="Assets\Scripts\LevelComplete.cs" />
+=======
+>>>>>>> origin/master
     <Compile Include="Assets\Scripts\Player_Collision.cs" />
     <Compile Include="Assets\Scripts\Player_Movement.cs" />
     <Compile Include="Assets\Scripts\Score.cs" />
