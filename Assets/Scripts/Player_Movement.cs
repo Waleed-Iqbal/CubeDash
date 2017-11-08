@@ -11,6 +11,8 @@ public class Player_Movement : MonoBehaviour
     private float middleXPosition = 1f;
     private float maxLeftXPosition = -1.4f;
 
+    public SwipeControl swipeControl;// = new SwipeControl();
+
     //private float xPositionDifference = 1.2f;
 
     // Use this for initialization
@@ -31,13 +33,13 @@ public class Player_Movement : MonoBehaviour
             rb.AddForce(0, -forwardForce / 2 * Time.deltaTime, 0);
         }
 
-        if (Input.GetKeyDown(KeyCode.W) && isPlayerOnGround())  // only jump when on ground
+        if ((Input.GetKeyDown(KeyCode.W) || swipeControl.SwipeUp) && isPlayerOnGround())  // only jump when on ground
             MakePlayerJump();
 
-        if (Input.GetKeyDown(KeyCode.D)) //Input.GetKey("d"))
+        if (Input.GetKeyDown(KeyCode.D) || swipeControl.SwipeRight) //Input.GetKey("d"))
             MovePlayerRight();
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || swipeControl.SwipeLeft)
             MovePlayerLeft();
 
     }
@@ -73,38 +75,38 @@ public class Player_Movement : MonoBehaviour
             rb.MovePosition(new Vector3(maxRightXPosition, rb.position.y, rb.position.z));
     }
 
-    private enum DraggedDirection
-    {
-        Up,
-        Down,
-        Right,
-        Left
-    }
+   //private enum DraggedDirection
+   //{
+   //    Up,
+   //    Down,
+   //    Right,
+   //    Left
+   //}
+   //
+   //private DraggedDirection GetDragDirection(Vector3 dragVector)
+   //{
+   //    float positiveX = Mathf.Abs(dragVector.x);
+   //    float positiveY = Mathf.Abs(dragVector.y);
+   //    DraggedDirection draggedDir;
+   //    if (positiveX > positiveY)
+   //        draggedDir = (dragVector.x > 0) ? DraggedDirection.Right : DraggedDirection.Left;
+   //    else
+   //        draggedDir = (dragVector.y > 0) ? DraggedDirection.Up : DraggedDirection.Down;
+   //    return draggedDir;
+   //}
 
-    private DraggedDirection GetDragDirection(Vector3 dragVector)
-    {
-        float positiveX = Mathf.Abs(dragVector.x);
-        float positiveY = Mathf.Abs(dragVector.y);
-        DraggedDirection draggedDir;
-        if (positiveX > positiveY)
-            draggedDir = (dragVector.x > 0) ? DraggedDirection.Right : DraggedDirection.Left;
-        else
-            draggedDir = (dragVector.y > 0) ? DraggedDirection.Up : DraggedDirection.Down;
-        return draggedDir;
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        Vector3 dragVectorDirection = (eventData.position - eventData.pressPosition).normalized;
-        DraggedDirection direction = GetDragDirection(dragVectorDirection);
-
-        if (direction == DraggedDirection.Left)
-            MovePlayerLeft();
-
-        if (direction == DraggedDirection.Right)
-            MovePlayerRight();
-
-        if (direction == DraggedDirection.Up && isPlayerOnGround())
-            MakePlayerJump();
-    }
+    //public void OnEndDrag(PointerEventData eventData)
+    //{
+    //    Vector3 dragVectorDirection = (eventData.position - eventData.pressPosition).normalized;
+    //    DraggedDirection direction = GetDragDirection(dragVectorDirection);
+    //
+    //    if (direction == DraggedDirection.Left)
+    //        MovePlayerLeft();
+    //
+    //    if (direction == DraggedDirection.Right)
+    //        MovePlayerRight();
+    //
+    //    if (direction == DraggedDirection.Up && isPlayerOnGround())
+    //        MakePlayerJump();
+    //}
 }
