@@ -4,17 +4,19 @@ using UnityEngine.EventSystems;
 
 public class Player_Movement : MonoBehaviour
 {
+    // current position of ground
+    private enum CurrentPosition { Middle, Left, Right }
+    private CurrentPosition currentPosition = CurrentPosition.Middle;
 
     public Rigidbody rb;
-    public float forwardForce = 1000f;
-    private float maxRightXPosition = 3.4f;
-    private float middleXPosition = 1f;
-    private float maxLeftXPosition = -1.4f;
 
-    public SwipeControl swipeControl;// = new SwipeControl();
+    public SwipeControl swipeControl;
 
-    //private float xPositionDifference = 1.2f;
-
+    private float forwardForce = 8000f;
+    private float sideWayXForce = 1300f;
+    private float sideWayYForce = 1500f;
+    private float downwardForceWhenInAir = -200f;
+    private float positionToApplyDownwardForce = 2f;
     // Use this for initialization
     void Start()
     {
@@ -24,89 +26,62 @@ public class Player_Movement : MonoBehaviour
     // Marked as "Fixed"Update because we are using it to mess with physics
     void Update()
     {
-        rb.AddForce(0, 0, forwardForce * Time.deltaTime);
+        rb.AddForce(0, 0, forwardForce * Time.deltaTime); // forward movement
 
-        if (rb.position.y > 2f)
+        if (rb.position.y > positionToApplyDownwardForce)
         {
             // this makes player comes down on ground faster when jumped by applying a downward
             // force when in air (more than 2 units above ground)
-            rb.AddForce(0, -forwardForce / 2 * Time.deltaTime, 0);
+            //rb.AddForce(0, -forwardForce / 2 * Time.deltaTime, 0);
+            rb.AddForce(0, downwardForceWhenInAir, 0);
         }
 
-        if ((Input.GetKeyDown(KeyCode.W) || swipeControl.SwipeUp) && isPlayerOnGround())  // only jump when on ground
+        if ((Input.GetKeyDown(KeyCode.W) || swipeControl.SwipeUp) && isPlayerOnGround()) 
             MakePlayerJump();
 
-        if (Input.GetKeyDown(KeyCode.D) || swipeControl.SwipeRight) //Input.GetKey("d"))
+        if ((Input.GetKeyDown(KeyCode.D) || swipeControl.SwipeRight) && isPlayerOnGround())
             MovePlayerRight();
 
-        if (Input.GetKeyDown(KeyCode.A) || swipeControl.SwipeLeft)
+        if ((Input.GetKeyDown(KeyCode.A) || swipeControl.SwipeLeft) && isPlayerOnGround())
             MovePlayerLeft();
 
     }
 
     private bool isPlayerOnGround()
     {
-        return rb.position.y <= 0.76f;
+        return rb.position.y <= 1.2f;
     }
 
     private void MakePlayerJump()
     {
-        rb.AddForce(0, forwardForce * 10 * Time.deltaTime, 0);
-
+        rb.AddForce(0, forwardForce * 18 * Time.deltaTime, 0);
     }
 
     private void MovePlayerRight()
     {
-        if (rb.position.x == middleXPosition)
-            rb.MovePosition(new Vector3(maxRightXPosition, rb.position.y, rb.position.z));
-        else if (rb.position.x == maxLeftXPosition)
-            rb.MovePosition(new Vector3(middleXPosition, rb.position.y, rb.position.z));
-        else if (rb.position.x == maxRightXPosition)
-            rb.MovePosition(new Vector3(maxLeftXPosition, rb.position.y, rb.position.z));
+        if (currentPosition == CurrentPosition.Middle)
+        {
+            rb.AddForce(sideWayXForce, sideWayYForce, 0);
+            currentPosition = CurrentPosition.Right;
+        }
+        else if (currentPosition == CurrentPosition.Left)
+        {
+            rb.AddForce(sideWayXForce, sideWayYForce, 0);
+            currentPosition = CurrentPosition.Middle;
+        }
     }
 
     private void MovePlayerLeft()
     {
-        if (rb.position.x == maxRightXPosition)
-            rb.MovePosition(new Vector3(middleXPosition, rb.position.y, rb.position.z));
-        else if (rb.position.x == middleXPosition)
-            rb.MovePosition(new Vector3(maxLeftXPosition, rb.position.y, rb.position.z));
-        else if (rb.position.x == maxLeftXPosition)
-            rb.MovePosition(new Vector3(maxRightXPosition, rb.position.y, rb.position.z));
+        if (currentPosition == CurrentPosition.Right)
+        {
+            rb.AddForce(-sideWayXForce, sideWayYForce, 0);
+            currentPosition = CurrentPosition.Middle;
+        }
+        else if (currentPosition == CurrentPosition.Middle)
+        {
+            rb.AddForce(-sideWayXForce, sideWayYForce, 0);
+            currentPosition = CurrentPosition.Left;
+        }
     }
-
-   //private enum DraggedDirection
-   //{
-   //    Up,
-   //    Down,
-   //    Right,
-   //    Left
-   //}
-   //
-   //private DraggedDirection GetDragDirection(Vector3 dragVector)
-   //{
-   //    float positiveX = Mathf.Abs(dragVector.x);
-   //    float positiveY = Mathf.Abs(dragVector.y);
-   //    DraggedDirection draggedDir;
-   //    if (positiveX > positiveY)
-   //        draggedDir = (dragVector.x > 0) ? DraggedDirection.Right : DraggedDirection.Left;
-   //    else
-   //        draggedDir = (dragVector.y > 0) ? DraggedDirection.Up : DraggedDirection.Down;
-   //    return draggedDir;
-   //}
-
-    //public void OnEndDrag(PointerEventData eventData)
-    //{
-    //    Vector3 dragVectorDirection = (eventData.position - eventData.pressPosition).normalized;
-    //    DraggedDirection direction = GetDragDirection(dragVectorDirection);
-    //
-    //    if (direction == DraggedDirection.Left)
-    //        MovePlayerLeft();
-    //
-    //    if (direction == DraggedDirection.Right)
-    //        MovePlayerRight();
-    //
-    //    if (direction == DraggedDirection.Up && isPlayerOnGround())
-    //        MakePlayerJump();
-    //}
 }
