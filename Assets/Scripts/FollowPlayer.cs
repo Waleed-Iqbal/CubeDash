@@ -12,6 +12,7 @@ public class FollowPlayer : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        transform.position = new Vector3(player.position.x, player.position.y, player.position.z) + offset;
+        // not moving camera in y-direction, in other words, not move camera upwards when player jumps
+        transform.position = new Vector3(player.position.x , transform.position.y + offset.y, player.position.z) + offset;
 	}
 }
