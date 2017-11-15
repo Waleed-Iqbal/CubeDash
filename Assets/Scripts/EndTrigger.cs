@@ -7,8 +7,6 @@ public class EndTrigger : MonoBehaviour
 
     void OnTriggerEnter()
     {
-        //completeLevelUI.SetActive(true);
-       // gameManager.CompleteLevel();
         completeLevelUI.SetActive(true);
         Debug.Log("Game ended");
     }

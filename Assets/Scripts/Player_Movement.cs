@@ -51,24 +51,8 @@ public class Player_Movement : MonoBehaviour
     // Marked as "Fixed"Update because we are using it to mess with physics
     void Update()
     {
-        if (isPlayerMovingSideWays)
-        {
-            player.transform.position = Vector3.Lerp(player.transform.position, sideWayMovementDestination, sidewayMotionSmoothTime);
-            Debug.Log("Lerping");
-            isPlayerMovingSideWays = Vector3.Distance(player.transform.position, sideWayMovementDestination) >= 1f;
-                //player.transform.position.x != sideWayMovementDestination.x;
-            //Vector3.Distance(player.transform.position, sideWayMovementDestination) >= 0.1f;
-            //
-        }
-        //else
-        //{
-        //    sideWayMovementDestination = player.transform.position;
-        //}
-
-
         playerCurrentVelocity = forwardForce * Time.deltaTime;
         player.AddForce(0, 0, playerCurrentVelocity); // forward movement
-        //player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z + 1f);
         if (player.position.y > positionToApplyDownwardForce)
         {
             // this makes player comes down on ground faster when jumped by applying a downward
@@ -88,13 +72,14 @@ public class Player_Movement : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.A) || swipeControl.SwipeLeft) && IsPlayerOnGround())
             MovePlayerLeft();
-        // }
-        // else // player is moving sideways
-        // {
-        
-        //     isPlayerMovingSideWays = Vector3.Distance(player.transform.position, sideWayMovementDestination) >= 0.1f;
-        // }
 
+        isPlayerMovingSideWays = Math.Abs(Math.Abs(player.transform.position.x) - Math.Abs(sideWayMovementDestination.x)) >= 0.01;
+        if (isPlayerMovingSideWays)
+        {
+            // updating the destination position's z-axis location as z-axis position of player gets updated in each frame and we only need to move along x-axis
+            sideWayMovementDestination.Set(sideWayMovementDestination.x, sideWayMovementDestination.y, player.transform.position.z);
+            player.transform.position = Vector3.Lerp(player.transform.position, sideWayMovementDestination, sidewayMotionSmoothTime);
+        }
     }
 
     private bool IsPlayerOnGround()
@@ -113,14 +98,12 @@ public class Player_Movement : MonoBehaviour
         {
             currentPosition = CurrentPosition.Right;
             sideWayMovementDestination = new Vector3(maxRightPosition, player.transform.position.y, player.transform.position.z);
-            player.transform.position = Vector3.Lerp(player.transform.position, sideWayMovementDestination, sidewayMotionSmoothTime);
             isPlayerMovingSideWays = true;
         }
         else if (currentPosition == CurrentPosition.Left)
         {
             currentPosition = CurrentPosition.Middle;
             sideWayMovementDestination = new Vector3(middlePosition, player.transform.position.y, player.transform.position.z);
-            player.transform.position = Vector3.Lerp(player.transform.position, sideWayMovementDestination, sidewayMotionSmoothTime);
             isPlayerMovingSideWays = true;
         }
     }
@@ -131,14 +114,12 @@ public class Player_Movement : MonoBehaviour
         {
             currentPosition = CurrentPosition.Middle;
             sideWayMovementDestination = new Vector3(middlePosition, player.transform.position.y, player.transform.position.z);
-            player.transform.position = Vector3.Lerp(player.transform.position, sideWayMovementDestination, sidewayMotionSmoothTime);
             isPlayerMovingSideWays = true;
         }
         else if (currentPosition == CurrentPosition.Middle)
         {
             currentPosition = CurrentPosition.Left;
             sideWayMovementDestination = new Vector3(maxLeftPosition, player.transform.position.y, player.transform.position.z);
-            player.transform.position = Vector3.Lerp(player.transform.position, sideWayMovementDestination, sidewayMotionSmoothTime);
             isPlayerMovingSideWays = true;
         }
     }
