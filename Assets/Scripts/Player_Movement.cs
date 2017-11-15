@@ -51,6 +51,21 @@ public class Player_Movement : MonoBehaviour
     // Marked as "Fixed"Update because we are using it to mess with physics
     void Update()
     {
+        if (isPlayerMovingSideWays)
+        {
+            player.transform.position = Vector3.Lerp(player.transform.position, sideWayMovementDestination, sidewayMotionSmoothTime);
+            Debug.Log("Lerping");
+            isPlayerMovingSideWays = Vector3.Distance(player.transform.position, sideWayMovementDestination) >= 1f;
+                //player.transform.position.x != sideWayMovementDestination.x;
+            //Vector3.Distance(player.transform.position, sideWayMovementDestination) >= 0.1f;
+            //
+        }
+        //else
+        //{
+        //    sideWayMovementDestination = player.transform.position;
+        //}
+
+
         playerCurrentVelocity = forwardForce * Time.deltaTime;
         player.AddForce(0, 0, playerCurrentVelocity); // forward movement
         //player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z + 1f);
@@ -63,22 +78,22 @@ public class Player_Movement : MonoBehaviour
         }
 
 
-       // if (!isPlayerMovingSideWays)
-      //  {
-            if ((Input.GetKeyDown(KeyCode.W) || swipeControl.SwipeUp) && IsPlayerOnGround())
-                MakePlayerJump();
+        // if (!isPlayerMovingSideWays)
+        //  {
+        if ((Input.GetKeyDown(KeyCode.W) || swipeControl.SwipeUp) && IsPlayerOnGround())
+            MakePlayerJump();
 
-            if ((Input.GetKeyDown(KeyCode.D) || swipeControl.SwipeRight) && IsPlayerOnGround())
-                MovePlayerRight();
+        if ((Input.GetKeyDown(KeyCode.D) || swipeControl.SwipeRight) && IsPlayerOnGround())
+            MovePlayerRight();
 
-            if ((Input.GetKeyDown(KeyCode.A) || swipeControl.SwipeLeft) && IsPlayerOnGround())
-                MovePlayerLeft();
-       // }
-       // else // player is moving sideways
-       // {
-            player.transform.position = Vector3.Lerp(player.transform.position, sideWayMovementDestination, sidewayMotionSmoothTime);
-       //     isPlayerMovingSideWays = Vector3.Distance(player.transform.position, sideWayMovementDestination) >= 0.1f;
-       // }
+        if ((Input.GetKeyDown(KeyCode.A) || swipeControl.SwipeLeft) && IsPlayerOnGround())
+            MovePlayerLeft();
+        // }
+        // else // player is moving sideways
+        // {
+        
+        //     isPlayerMovingSideWays = Vector3.Distance(player.transform.position, sideWayMovementDestination) >= 0.1f;
+        // }
 
     }
 
