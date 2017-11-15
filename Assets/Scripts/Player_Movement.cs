@@ -8,66 +8,105 @@ public class Player_Movement : MonoBehaviour
     private enum CurrentPosition { Middle, Left, Right }
     private CurrentPosition currentPosition = CurrentPosition.Middle;
 
-    public Rigidbody rb;
+    public Rigidbody player;
+    public GameObject ground;
 
     public SwipeControl swipeControl;
 
-    private float forwardForce = 8000f;
-    private float sideWayXForce = 1300f;
-    private float sideWayYForce = 1500f;
-    private float downwardForceWhenInAir = -200f;
-    private float positionToApplyDownwardForce = 2f;
-    // Use this for initialization
-    void Start()
-    {
-    }
+    private float forwardForce;
+    private Vector3 sideWayMovementDestination;
+    private float playerCurrentVelocity;
+    private float sidewayMotionSmoothTime;
 
+
+    private float maxLeftPosition;
+    private float maxRightPosition;
+    private float middlePosition;
+    private float downwardForceWhenInAir;
+    private float positionToApplyDownwardForce;
+
+    // used for smooth horizontal transition of player
+    private bool isPlayerMovingSideWays;
+
+    private void Start()
+    {
+        sideWayMovementDestination = player.transform.position;
+        forwardForce = 8000f;
+        //sideWayXForce = 2000f;
+        //sideWayYForce = 500f;
+        playerCurrentVelocity = 0;
+        sidewayMotionSmoothTime = 0.3f;
+
+
+        maxLeftPosition = -3f;
+        maxRightPosition = 3f;
+        middlePosition = 0f;
+        downwardForceWhenInAir = -200f;
+        positionToApplyDownwardForce = 2f;
+
+        isPlayerMovingSideWays = false;
+
+    }
 
     // Marked as "Fixed"Update because we are using it to mess with physics
     void Update()
     {
-        rb.AddForce(0, 0, forwardForce * Time.deltaTime); // forward movement
-
-        if (rb.position.y > positionToApplyDownwardForce)
+        playerCurrentVelocity = forwardForce * Time.deltaTime;
+        player.AddForce(0, 0, playerCurrentVelocity); // forward movement
+        //player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z + 1f);
+        if (player.position.y > positionToApplyDownwardForce)
         {
             // this makes player comes down on ground faster when jumped by applying a downward
             // force when in air (more than 2 units above ground)
             //rb.AddForce(0, -forwardForce / 2 * Time.deltaTime, 0);
-            rb.AddForce(0, downwardForceWhenInAir, 0);
+            player.AddForce(0, downwardForceWhenInAir, 0);
         }
 
-        if ((Input.GetKeyDown(KeyCode.W) || swipeControl.SwipeUp) && isPlayerOnGround()) 
-            MakePlayerJump();
 
-        if ((Input.GetKeyDown(KeyCode.D) || swipeControl.SwipeRight) && isPlayerOnGround())
-            MovePlayerRight();
+       // if (!isPlayerMovingSideWays)
+      //  {
+            if ((Input.GetKeyDown(KeyCode.W) || swipeControl.SwipeUp) && IsPlayerOnGround())
+                MakePlayerJump();
 
-        if ((Input.GetKeyDown(KeyCode.A) || swipeControl.SwipeLeft) && isPlayerOnGround())
-            MovePlayerLeft();
+            if ((Input.GetKeyDown(KeyCode.D) || swipeControl.SwipeRight) && IsPlayerOnGround())
+                MovePlayerRight();
+
+            if ((Input.GetKeyDown(KeyCode.A) || swipeControl.SwipeLeft) && IsPlayerOnGround())
+                MovePlayerLeft();
+       // }
+       // else // player is moving sideways
+       // {
+            player.transform.position = Vector3.Lerp(player.transform.position, sideWayMovementDestination, sidewayMotionSmoothTime);
+       //     isPlayerMovingSideWays = Vector3.Distance(player.transform.position, sideWayMovementDestination) >= 0.1f;
+       // }
 
     }
 
-    private bool isPlayerOnGround()
+    private bool IsPlayerOnGround()
     {
-        return rb.position.y <= 1.2f;
+        return player.position.y <= 1.2f;
     }
 
     private void MakePlayerJump()
     {
-        rb.AddForce(0, forwardForce * 18 * Time.deltaTime, 0);
+        player.AddForce(0, playerCurrentVelocity * 18, 0);
     }
 
     private void MovePlayerRight()
     {
         if (currentPosition == CurrentPosition.Middle)
         {
-            rb.AddForce(sideWayXForce, sideWayYForce, 0);
             currentPosition = CurrentPosition.Right;
+            sideWayMovementDestination = new Vector3(maxRightPosition, player.transform.position.y, player.transform.position.z);
+            player.transform.position = Vector3.Lerp(player.transform.position, sideWayMovementDestination, sidewayMotionSmoothTime);
+            isPlayerMovingSideWays = true;
         }
         else if (currentPosition == CurrentPosition.Left)
         {
-            rb.AddForce(sideWayXForce, sideWayYForce, 0);
             currentPosition = CurrentPosition.Middle;
+            sideWayMovementDestination = new Vector3(middlePosition, player.transform.position.y, player.transform.position.z);
+            player.transform.position = Vector3.Lerp(player.transform.position, sideWayMovementDestination, sidewayMotionSmoothTime);
+            isPlayerMovingSideWays = true;
         }
     }
 
@@ -75,13 +114,17 @@ public class Player_Movement : MonoBehaviour
     {
         if (currentPosition == CurrentPosition.Right)
         {
-            rb.AddForce(-sideWayXForce, sideWayYForce, 0);
             currentPosition = CurrentPosition.Middle;
+            sideWayMovementDestination = new Vector3(middlePosition, player.transform.position.y, player.transform.position.z);
+            player.transform.position = Vector3.Lerp(player.transform.position, sideWayMovementDestination, sidewayMotionSmoothTime);
+            isPlayerMovingSideWays = true;
         }
         else if (currentPosition == CurrentPosition.Middle)
         {
-            rb.AddForce(-sideWayXForce, sideWayYForce, 0);
             currentPosition = CurrentPosition.Left;
+            sideWayMovementDestination = new Vector3(maxLeftPosition, player.transform.position.y, player.transform.position.z);
+            player.transform.position = Vector3.Lerp(player.transform.position, sideWayMovementDestination, sidewayMotionSmoothTime);
+            isPlayerMovingSideWays = true;
         }
     }
 }
