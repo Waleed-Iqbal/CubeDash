@@ -9,8 +9,6 @@ public class LevelComplete : MonoBehaviour
         int totalScenes = SceneManager.sceneCountInBuildSettings;
         int nextLevelNumber = SceneManager.GetActiveScene().buildIndex + 1;
 
-        Debug.Log("next level number: " + nextLevelNumber + " ... total Scenes: " + totalScenes);
-        //if (SceneManager.GetSceneByBuildIndex(nextLevelNumber - 1).IsValid())
 
         if (nextLevelNumber < totalScenes)
             SceneManager.LoadScene(nextLevelNumber);
