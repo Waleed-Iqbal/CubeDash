@@ -38,8 +38,8 @@ public class Player_Movement : MonoBehaviour
         sidewayMotionSmoothTime = 0.3f;
 
 
-        maxLeftPosition = -3f;
-        maxRightPosition = 3f;
+        maxRightPosition = 2.75f;
+        maxLeftPosition = -maxRightPosition;
         middlePosition = 0f;
         downwardForceWhenInAir = -200f;
         positionToApplyDownwardForce = 2f;
