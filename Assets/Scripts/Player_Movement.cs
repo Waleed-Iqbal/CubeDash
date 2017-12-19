@@ -40,7 +40,7 @@ public class Player_Movement : MonoBehaviour
 
         maxRightPosition = 2.75f;
         maxLeftPosition = -maxRightPosition;
-        middlePosition = 0f;
+        middlePosition = 10f;
         downwardForceWhenInAir = -200f;
         positionToApplyDownwardForce = 2f;
 
