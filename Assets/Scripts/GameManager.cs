@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
         completeLevelUI.SetActive(true);
     }
 
-
     public void EndGame()
     {
         if (!hasGameEnded)
@@ -28,4 +27,11 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
+    }
+
 }
