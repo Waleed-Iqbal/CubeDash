@@ -32,11 +32,8 @@ public class Player_Movement : MonoBehaviour
     {
         sideWayMovementDestination = player.transform.position;
         forwardForce = 8000f;
-        //sideWayXForce = 2000f;
-        //sideWayYForce = 500f;
-        playerCurrentVelocity = 0;
+        playerCurrentVelocity = 0.0f;
         sidewayMotionSmoothTime = 0.3f;
-
 
         maxRightPosition = 2.75f;
         maxLeftPosition = -maxRightPosition;
@@ -51,13 +48,13 @@ public class Player_Movement : MonoBehaviour
 
     private void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.W) || swipeControl.SwipeUp) && IsPlayerOnGround())
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || swipeControl.SwipeUp) && IsPlayerOnGround())
             MakePlayerJump();
 
-        if ((Input.GetKeyDown(KeyCode.D) || swipeControl.SwipeRight) && IsPlayerOnGround())
+        if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) || swipeControl.SwipeRight) && IsPlayerOnGround())
             MovePlayerRight();
 
-        if ((Input.GetKeyDown(KeyCode.A) || swipeControl.SwipeLeft) && IsPlayerOnGround())
+        if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) || swipeControl.SwipeLeft) && IsPlayerOnGround())
             MovePlayerLeft();
     }
 
@@ -71,11 +68,8 @@ public class Player_Movement : MonoBehaviour
             // this makes player comes down on ground faster when jumped by applying a downward
             // force when in air (more than 2 units above ground)
             //rb.AddForce(0, -forwardForce / 2 * Time.deltaTime, 0);
-            player.AddForce(0, downwardForceWhenInAir * Time.deltaTime, 0);
+            player.AddForce(0, downwardForceWhenInAir, 0);
         }
-
-
-        
 
         isPlayerMovingSideWays = Math.Abs(Math.Abs(player.transform.position.x) - Math.Abs(sideWayMovementDestination.x)) >= 0.01;
         if (isPlayerMovingSideWays)
@@ -93,7 +87,8 @@ public class Player_Movement : MonoBehaviour
 
     private void MakePlayerJump()
     {
-        player.AddForce(0, playerCurrentVelocity * 18 * Time.deltaTime, 0);
+        player.AddForce(0, playerCurrentVelocity * 30, 0);
+        Debug.Log("Jumped");
     }
 
     private void MovePlayerRight()
@@ -103,14 +98,12 @@ public class Player_Movement : MonoBehaviour
             currentPosition = CurrentPosition.Right;
             sideWayMovementDestination = new Vector3(maxRightPosition, player.transform.position.y, player.transform.position.z);
             isPlayerMovingSideWays = true;
-            Debug.Log("Moving to right");
         }
         else if (currentPosition == CurrentPosition.Left)
         {
             currentPosition = CurrentPosition.Middle;
             sideWayMovementDestination = new Vector3(middlePosition, player.transform.position.y, player.transform.position.z);
             isPlayerMovingSideWays = true;
-            Debug.Log("Moving to middle");
         }
     }
 
@@ -121,14 +114,12 @@ public class Player_Movement : MonoBehaviour
             currentPosition = CurrentPosition.Middle;
             sideWayMovementDestination = new Vector3(middlePosition, player.transform.position.y, player.transform.position.z);
             isPlayerMovingSideWays = true;
-            Debug.Log("Moving to middle");
         }
         else if (currentPosition == CurrentPosition.Middle)
         {
             currentPosition = CurrentPosition.Left;
             sideWayMovementDestination = new Vector3(maxLeftPosition, player.transform.position.y, player.transform.position.z);
             isPlayerMovingSideWays = true;
-            Debug.Log("Moving to left");
         }
     }
 }
