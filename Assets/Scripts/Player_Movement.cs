@@ -40,30 +40,17 @@ public class Player_Movement : MonoBehaviour
 
         maxRightPosition = 2.75f;
         maxLeftPosition = -maxRightPosition;
-        middlePosition = 10f;
-        downwardForceWhenInAir = -200f;
+        middlePosition = 0.0f; // was 10f ... like wtf
+        downwardForceWhenInAir = -180f;
         positionToApplyDownwardForce = 2f;
 
         isPlayerMovingSideWays = false;
 
     }
 
-    // Marked as "Fixed"Update because we are using it to mess with physics
-    void Update()
+
+    private void Update()
     {
-        playerCurrentVelocity = forwardForce * Time.deltaTime;
-        player.AddForce(0, 0, playerCurrentVelocity); // forward movement
-        if (player.position.y > positionToApplyDownwardForce)
-        {
-            // this makes player comes down on ground faster when jumped by applying a downward
-            // force when in air (more than 2 units above ground)
-            //rb.AddForce(0, -forwardForce / 2 * Time.deltaTime, 0);
-            player.AddForce(0, downwardForceWhenInAir, 0);
-        }
-
-
-        // if (!isPlayerMovingSideWays)
-        //  {
         if ((Input.GetKeyDown(KeyCode.W) || swipeControl.SwipeUp) && IsPlayerOnGround())
             MakePlayerJump();
 
@@ -72,6 +59,23 @@ public class Player_Movement : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.A) || swipeControl.SwipeLeft) && IsPlayerOnGround())
             MovePlayerLeft();
+    }
+
+    // Marked as "Fixed"Update because we are using it to mess with physics
+    private void FixedUpdate()
+    {
+        playerCurrentVelocity = forwardForce * Time.deltaTime;
+        player.AddForce(0, 0, playerCurrentVelocity); // forward movement
+        if (player.position.y > positionToApplyDownwardForce)
+        {
+            // this makes player comes down on ground faster when jumped by applying a downward
+            // force when in air (more than 2 units above ground)
+            //rb.AddForce(0, -forwardForce / 2 * Time.deltaTime, 0);
+            player.AddForce(0, downwardForceWhenInAir * Time.deltaTime, 0);
+        }
+
+
+        
 
         isPlayerMovingSideWays = Math.Abs(Math.Abs(player.transform.position.x) - Math.Abs(sideWayMovementDestination.x)) >= 0.01;
         if (isPlayerMovingSideWays)
@@ -89,7 +93,7 @@ public class Player_Movement : MonoBehaviour
 
     private void MakePlayerJump()
     {
-        player.AddForce(0, playerCurrentVelocity * 18, 0);
+        player.AddForce(0, playerCurrentVelocity * 18 * Time.deltaTime, 0);
     }
 
     private void MovePlayerRight()
@@ -99,12 +103,14 @@ public class Player_Movement : MonoBehaviour
             currentPosition = CurrentPosition.Right;
             sideWayMovementDestination = new Vector3(maxRightPosition, player.transform.position.y, player.transform.position.z);
             isPlayerMovingSideWays = true;
+            Debug.Log("Moving to right");
         }
         else if (currentPosition == CurrentPosition.Left)
         {
             currentPosition = CurrentPosition.Middle;
             sideWayMovementDestination = new Vector3(middlePosition, player.transform.position.y, player.transform.position.z);
             isPlayerMovingSideWays = true;
+            Debug.Log("Moving to middle");
         }
     }
 
@@ -115,12 +121,14 @@ public class Player_Movement : MonoBehaviour
             currentPosition = CurrentPosition.Middle;
             sideWayMovementDestination = new Vector3(middlePosition, player.transform.position.y, player.transform.position.z);
             isPlayerMovingSideWays = true;
+            Debug.Log("Moving to middle");
         }
         else if (currentPosition == CurrentPosition.Middle)
         {
             currentPosition = CurrentPosition.Left;
             sideWayMovementDestination = new Vector3(maxLeftPosition, player.transform.position.y, player.transform.position.z);
             isPlayerMovingSideWays = true;
+            Debug.Log("Moving to left");
         }
     }
 }
